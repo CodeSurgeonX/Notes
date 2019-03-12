@@ -14,6 +14,11 @@
 		CA17953E22365EA90043BF36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA17953D22365EA90043BF36 /* Assets.xcassets */; };
 		CA17954122365EA90043BF36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA17953F22365EA90043BF36 /* LaunchScreen.storyboard */; };
 		CA2297EF223794CD00633D25 /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2297EE223794CD00633D25 /* Notes.swift */; };
+		CA2297F222379DC500633D25 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2297F022379DC500633D25 /* CustomTableViewCell.swift */; };
+		CA2297F322379DC500633D25 /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA2297F122379DC500633D25 /* CustomTableViewCell.xib */; };
+		CA2297FE2237AA8F00633D25 /* AddUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2297FC2237AA8F00633D25 /* AddUpdateViewController.swift */; };
+		CA2297FF2237AA8F00633D25 /* AddUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA2297FD2237AA8F00633D25 /* AddUpdateViewController.xib */; };
+		CA2298032237D84100633D25 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2298022237D84100633D25 /* State.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +31,11 @@
 		CA17954022365EA90043BF36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA17954222365EA90043BF36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA2297EE223794CD00633D25 /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
+		CA2297F022379DC500633D25 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		CA2297F122379DC500633D25 /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
+		CA2297FC2237AA8F00633D25 /* AddUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUpdateViewController.swift; sourceTree = "<group>"; };
+		CA2297FD2237AA8F00633D25 /* AddUpdateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddUpdateViewController.xib; sourceTree = "<group>"; };
+		CA2298022237D84100633D25 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,16 +68,53 @@
 		CA17953222365EA80043BF36 /* Notes App */ = {
 			isa = PBXGroup;
 			children = (
-				CA17953322365EA80043BF36 /* AppDelegate.swift */,
-				CA17953522365EA80043BF36 /* ViewController.swift */,
 				CA17953722365EA80043BF36 /* Main.storyboard */,
-				CA17953D22365EA90043BF36 /* Assets.xcassets */,
-				CA17953F22365EA90043BF36 /* LaunchScreen.storyboard */,
+				CA2298002237B4EF00633D25 /* View Controllers */,
+				CA2297F522379DEA00633D25 /* Model */,
+				CA2297F422379DD300633D25 /* Custom Cell */,
 				CA17954222365EA90043BF36 /* Info.plist */,
+				CA17953D22365EA90043BF36 /* Assets.xcassets */,
+				CA2298012237B50A00633D25 /* Supporting Files */,
+			);
+			path = "Notes App";
+			sourceTree = "<group>";
+		};
+		CA2297F422379DD300633D25 /* Custom Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CA2297F022379DC500633D25 /* CustomTableViewCell.swift */,
+				CA2297F122379DC500633D25 /* CustomTableViewCell.xib */,
+			);
+			path = "Custom Cell";
+			sourceTree = "<group>";
+		};
+		CA2297F522379DEA00633D25 /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				CA17953A22365EA80043BF36 /* Notes_App.xcdatamodeld */,
 				CA2297EE223794CD00633D25 /* Notes.swift */,
 			);
-			path = "Notes App";
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CA2298002237B4EF00633D25 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CA17953522365EA80043BF36 /* ViewController.swift */,
+				CA2297FC2237AA8F00633D25 /* AddUpdateViewController.swift */,
+				CA2297FD2237AA8F00633D25 /* AddUpdateViewController.xib */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		CA2298012237B50A00633D25 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CA2298022237D84100633D25 /* State.swift */,
+				CA17953322365EA80043BF36 /* AppDelegate.swift */,
+				CA17953F22365EA90043BF36 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,7 +176,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA17954122365EA90043BF36 /* LaunchScreen.storyboard in Resources */,
+				CA2297FF2237AA8F00633D25 /* AddUpdateViewController.xib in Resources */,
 				CA17953E22365EA90043BF36 /* Assets.xcassets in Resources */,
+				CA2297F322379DC500633D25 /* CustomTableViewCell.xib in Resources */,
 				CA17953922365EA80043BF36 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,8 +191,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA17953C22365EA80043BF36 /* Notes_App.xcdatamodeld in Sources */,
+				CA2297FE2237AA8F00633D25 /* AddUpdateViewController.swift in Sources */,
+				CA2297F222379DC500633D25 /* CustomTableViewCell.swift in Sources */,
 				CA17953622365EA80043BF36 /* ViewController.swift in Sources */,
 				CA17953422365EA80043BF36 /* AppDelegate.swift in Sources */,
+				CA2298032237D84100633D25 /* State.swift in Sources */,
 				CA2297EF223794CD00633D25 /* Notes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
