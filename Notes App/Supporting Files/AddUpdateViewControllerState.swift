@@ -5,7 +5,7 @@
 //  Created by Shashwat  on 12/03/19.
 //  Copyright © 2019 Shashwat . All rights reserved.
 //
-enum State {
+enum AddUpdateViewControllerState {
     case Update
     case Add
 }

@@ -11,6 +11,8 @@ import CoreData
 
 class ViewController: UIViewController {
     //MARK:- Outlets and Variables
+    
+    @IBOutlet weak var searchBar: UITableView!
     var notesArray = [Notes]()
     let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer  //Core Data Context
     @IBOutlet weak var notesTableView: UITableView! {
@@ -21,18 +23,17 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     override func viewWillAppear(_ animated: Bool) {
         loadData()
-        notesTableView.reloadData()
+        
     }
     
     //MARK:- Add New Note Handler
     @IBAction func addNewNote(_ sender: UIBarButtonItem) {
         let addUpdateVC = AddUpdateViewController()
         addUpdateVC.container = self.container
-        addUpdateVC.state = State.Add
+        addUpdateVC.state = AddUpdateViewControllerState.Add
         navigationController?.pushViewController(addUpdateVC, animated: true)
     }
     
@@ -56,9 +57,11 @@ class ViewController: UIViewController {
         }
     }
     
-    fileprivate func loadData(){
+    fileprivate func loadData(with request : NSFetchRequest<Notes> = Notes.fetchRequest(), predicate : NSPredicate? = nil){
         do {
-            notesArray = try container.viewContext.fetch(Notes.fetchRequest())
+            request.predicate = predicate
+            notesArray = try container.viewContext.fetch(request)
+            notesTableView.reloadData()
         } catch (let error) {
             print(error.localizedDescription)
         }
@@ -80,19 +83,22 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = notesTableView.dequeueReusableCell(withIdentifier: "notesReusableCell", for: indexPath) as! CustomTableViewCell
-        cell.titleLabel.text = notesArray[indexPath.row].title
-        cell.descriptionLabel.text = notesArray[indexPath.row].desc
-        cell.createdLabel.text = "22/12/1994"
+        let model = notesArray[indexPath.row]
+        cell.titleLabel.text = model.title
+        cell.descriptionLabel.text = model.desc
+        let dFormat = DateFormatter()
+        dFormat.dateFormat = "dd/MM/yyyy"
+        cell.createdLabel.text = "\(dFormat.string(from: model.created ?? Date()))"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alert : UIAlertController = UIAlertController(title: "What do you want?", message: "Do you want to delete or update the selected note", preferredStyle: .alert)
+        let alert : UIAlertController = UIAlertController(title: "What do you want?", message: "Do you want to delete or update the selected note", preferredStyle: .actionSheet)
         weak var weakSelf = self
         let updateAction = UIAlertAction(title: "Update", style: .default) { (alertAction) in
             let addUpdateVC = AddUpdateViewController()
             addUpdateVC.container = weakSelf?.container
-            addUpdateVC.state = State.Update
+            addUpdateVC.state = AddUpdateViewControllerState.Update
             addUpdateVC.model = weakSelf?.notesArray[indexPath.row]
             weakSelf?.navigationController?.pushViewController(addUpdateVC, animated: true)
         }
@@ -101,8 +107,12 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
                 weakSelf?.deleteObject(Object: Object)
             }
         }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
         alert.addAction(updateAction)
         alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
         notesTableView.deselectRow(at: indexPath, animated: true)
     }
@@ -115,4 +125,22 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         self.deleteObject(Object: notesArray[indexPath.row])
     }
     
+}
+
+extension ViewController : UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<Notes> = Notes.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        loadData(with:request,predicate: NSPredicate(format: "desc CONTAINS %@", searchBar.text!))
+//        notesTableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadData()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
 }

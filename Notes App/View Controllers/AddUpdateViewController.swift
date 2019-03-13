@@ -12,7 +12,7 @@ import CoreData
 class AddUpdateViewController: UIViewController {
     
     var container : NSPersistentContainer?
-    var state : State?
+    var state : AddUpdateViewControllerState?
     var model : Notes?
     
     @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
@@ -46,7 +46,7 @@ class AddUpdateViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let currentState = self.state {
-            if currentState == State.Update, let currentModel = self.model {
+            if currentState == AddUpdateViewControllerState.Update, let currentModel = self.model {
                 titleTextView.text = currentModel.title
                 descriptionTextView.text = currentModel.desc
                 let size = CGSize(width: 2*(view.frame.width/3), height: CGFloat.infinity)
@@ -59,9 +59,9 @@ class AddUpdateViewController: UIViewController {
     }
     
     @objc func doneTapped(){
-        if self.state == State.Update {
+        if self.state == AddUpdateViewControllerState.Update {
             updateModel()
-        }else if self.state == State.Add {
+        }else if self.state == AddUpdateViewControllerState.Add {
             createNewNote()
         }
        navigationController?.popToRootViewController(animated: true)
@@ -73,6 +73,7 @@ class AddUpdateViewController: UIViewController {
             let stagedNotesModel = Notes(context: context)
             stagedNotesModel.title = title
             stagedNotesModel.desc = description
+            stagedNotesModel.created = Date()
             do {
                 try context.save()
             }catch {

@@ -23,6 +23,7 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var createdLabel: UILabel! {
         didSet {
             createdLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+            createdLabel.textColor = UIColor.lightGray
         }
     }
     
