@@ -8,12 +8,16 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 class AddUpdateViewController: UIViewController {
     
+    var location = CLLocationManager()
+    var locationRetrievalState : LocationState = .Fail
     var container : NSPersistentContainer?
     var state : AddUpdateViewControllerState?
     var model : Notes?
+    var coordinates : (Double, Double) = (0,0)
     
     @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTextView: UITextView!
@@ -41,6 +45,9 @@ class AddUpdateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneTapped))
+        if state == .Add {
+            setupLocationManager()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +81,10 @@ class AddUpdateViewController: UIViewController {
             stagedNotesModel.title = title
             stagedNotesModel.desc = description
             stagedNotesModel.created = Date()
+            if locationRetrievalState == .Success {
+                stagedNotesModel.latitude = coordinates.0
+                stagedNotesModel.longitude = coordinates.1
+            }
             do {
                 try context.save()
             }catch {
@@ -119,5 +130,30 @@ extension AddUpdateViewController : UITextViewDelegate {
             return false
         }
         return true
+    }
+}
+
+
+extension AddUpdateViewController : CLLocationManagerDelegate {
+    func setupLocationManager(){
+        location.delegate = self
+        location.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        location.requestWhenInUseAuthorization()  //Requesting “Always” authorization is discouraged because of the potential negative impacts to user privacy. You should request this level of authorization only when doing so offers a genuine benefit to the user.
+        location.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locus = locations[locations.count - 1]
+        let latitude = locus.coordinate.latitude
+        let longitude = locus.coordinate.longitude
+        coordinates = (latitude, longitude)
+        if locus.horizontalAccuracy > 0 {
+            location.stopUpdatingLocation()                                        //Saves battery of the user
+            locationRetrievalState = .Success
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        locationRetrievalState = .Fail
     }
 }

@@ -9,3 +9,9 @@ enum AddUpdateViewControllerState {
     case Update
     case Add
 }
+
+
+enum LocationState {
+    case Success
+    case Fail
+}

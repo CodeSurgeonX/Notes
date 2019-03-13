@@ -18,7 +18,7 @@
 		CA2297F322379DC500633D25 /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA2297F122379DC500633D25 /* CustomTableViewCell.xib */; };
 		CA2297FE2237AA8F00633D25 /* AddUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2297FC2237AA8F00633D25 /* AddUpdateViewController.swift */; };
 		CA2297FF2237AA8F00633D25 /* AddUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA2297FD2237AA8F00633D25 /* AddUpdateViewController.xib */; };
-		CA2298032237D84100633D25 /* AddUpdateViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2298022237D84100633D25 /* AddUpdateViewControllerState.swift */; };
+		CA2298032237D84100633D25 /* States.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2298022237D84100633D25 /* States.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +35,7 @@
 		CA2297F122379DC500633D25 /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
 		CA2297FC2237AA8F00633D25 /* AddUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUpdateViewController.swift; sourceTree = "<group>"; };
 		CA2297FD2237AA8F00633D25 /* AddUpdateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddUpdateViewController.xib; sourceTree = "<group>"; };
-		CA2298022237D84100633D25 /* AddUpdateViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUpdateViewControllerState.swift; sourceTree = "<group>"; };
+		CA2298022237D84100633D25 /* States.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = States.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +110,7 @@
 		CA2298012237B50A00633D25 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CA2298022237D84100633D25 /* AddUpdateViewControllerState.swift */,
+				CA2298022237D84100633D25 /* States.swift */,
 				CA17953322365EA80043BF36 /* AppDelegate.swift */,
 				CA17953F22365EA90043BF36 /* LaunchScreen.storyboard */,
 			);
@@ -195,7 +195,7 @@
 				CA2297F222379DC500633D25 /* CustomTableViewCell.swift in Sources */,
 				CA17953622365EA80043BF36 /* ViewController.swift in Sources */,
 				CA17953422365EA80043BF36 /* AppDelegate.swift in Sources */,
-				CA2298032237D84100633D25 /* AddUpdateViewControllerState.swift in Sources */,
+				CA2298032237D84100633D25 /* States.swift in Sources */,
 				CA2297EF223794CD00633D25 /* Notes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

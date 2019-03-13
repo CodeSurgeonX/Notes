@@ -8,10 +8,11 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 class ViewController: UIViewController {
     //MARK:- Outlets and Variables
-    
+
     @IBOutlet weak var searchBar: UITableView!
     var notesArray = [Notes]()
     let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer  //Core Data Context
