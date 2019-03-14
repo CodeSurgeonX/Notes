@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchBar: UITableView!
     var notesArray = [Notes]()
     let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer  //Core Data Context
+    var jsonData : Data?
     @IBOutlet weak var notesTableView: UITableView! {
         didSet{
             configureTableView()
@@ -24,6 +25,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        syncModels()
     }
     override func viewWillAppear(_ animated: Bool) {
         loadData()
@@ -61,6 +63,7 @@ class ViewController: UIViewController {
     fileprivate func loadData(with request : NSFetchRequest<Notes> = Notes.fetchRequest(), predicate : NSPredicate? = nil){
         do {
             request.predicate = predicate
+            request.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
             notesArray = try container.viewContext.fetch(request)
             notesTableView.reloadData()
         } catch (let error) {
@@ -131,8 +134,8 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
 extension ViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request : NSFetchRequest<Notes> = Notes.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        loadData(with:request,predicate: NSPredicate(format: "desc CONTAINS %@", searchBar.text!))
+        request.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
+        loadData(with:request,predicate: NSPredicate(format: "desc CONTAINS[c] %@", searchBar.text!))
 //        notesTableView.reloadData()
     }
     
@@ -142,6 +145,37 @@ extension ViewController : UISearchBarDelegate {
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
+        }
+    }
+}
+
+
+extension ViewController {
+    //MARK:- Network Requests
+    func syncModels(){
+        do {
+            let request : NSFetchRequest<Notes> = Notes.fetchRequest()
+            request.predicate = NSPredicate(format: "isSynced == %@", false)
+            let unSyncedNotesArray : [Notes] = try container.viewContext.fetch(request)
+            jsonData = try JSONEncoder().encode(unSyncedNotesArray)
+            if let _ = jsonData, let serverUrl = URL(string:"Enter Url Here") {
+                var urlRequest = URLRequest(url: serverUrl)
+                urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                urlRequest.httpMethod = "POST"
+                urlRequest.httpBody = jsonData
+                URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+                    if error != nil {
+                        for item in unSyncedNotesArray {
+                            item.isSynced = true
+                        }
+                    }else{
+                        print("Error")
+                    }
+                }
+                
+            }
+        }catch{
+            print("Error Getting Data")
         }
     }
 }

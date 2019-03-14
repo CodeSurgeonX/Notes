@@ -85,6 +85,7 @@ class AddUpdateViewController: UIViewController {
                 stagedNotesModel.latitude = coordinates.0
                 stagedNotesModel.longitude = coordinates.1
             }
+            stagedNotesModel.isSynced = false
             do {
                 try context.save()
             }catch {
@@ -97,8 +98,15 @@ class AddUpdateViewController: UIViewController {
     func updateModel(){
         if let currentModel = model {
             if let title = titleTextView.text, let description = descriptionTextView.text, title.count > 0, let context = container?.viewContext {
-                currentModel.title = title
-                currentModel.desc = description
+                if title != currentModel.title {
+                    currentModel.title = title
+                    currentModel.isSynced = false
+                }
+                if description != currentModel.desc {
+                   currentModel.desc = description
+                    currentModel.isSynced = false
+                }
+                
                 do {
                     try context.save()
                 }catch {
